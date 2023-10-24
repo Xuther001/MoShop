@@ -1,12 +1,12 @@
 package com.ecommerce.MoShop.product;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ecommerce.MoShop.cart.Cart;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,4 +22,12 @@ public class Product {
     private int stock;
     private int category;
     private BigDecimal price;
+
+    @Getter
+    @ManyToMany(mappedBy = "products")
+    private Set<Cart> carts;
+
+    public void setCarts(Set<Cart> carts) {
+        this.carts = carts;
+    }
 }

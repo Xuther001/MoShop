@@ -30,6 +30,7 @@ public class CartService {
         if (cart == null) {
             cart = new Cart(user);
         }
+        cart.addProduct(product);
         cartRepository.save(cart);
     }
 

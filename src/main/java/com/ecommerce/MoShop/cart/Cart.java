@@ -41,6 +41,7 @@ public class Cart {
 
     public void addProduct(Product product) {
         products.add(product);
+        product.getCarts().add(this); // Bidirectional relationship, if necessary
     }
 
     public void removeProduct(Optional<Product> product) {
