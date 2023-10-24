@@ -1,8 +1,9 @@
 package com.ecommerce.MoShop.sale;
 
-import com.ecommerce.MoShop.common.entity.Product;
+import com.ecommerce.MoShop.product.Product;
 import com.ecommerce.MoShop.common.entity.Sale;
 import com.ecommerce.MoShop.common.entity.User;
+import com.ecommerce.MoShop.product.ProductRepository;
 import com.ecommerce.MoShop.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

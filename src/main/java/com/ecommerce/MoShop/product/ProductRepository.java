@@ -1,6 +1,6 @@
-package com.ecommerce.MoShop.sale;
+package com.ecommerce.MoShop.product;
 
-import com.ecommerce.MoShop.common.entity.Product;
+import com.ecommerce.MoShop.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

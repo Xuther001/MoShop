@@ -1,5 +1,6 @@
 package com.ecommerce.MoShop.common.entity;
 
+import com.ecommerce.MoShop.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +22,9 @@ public class Sale {
 
     private BigDecimal totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+//    @ManyToOne
+//    @JoinColumn(name = "product_id")
+//    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -32,8 +33,8 @@ public class Sale {
     @ManyToMany
     @JoinTable(
             name = "sale_product",
-            joinColumns = @JoinColumn(name = "sale_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+            joinColumns = @JoinColumn(name = "sale_id")
+//            inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private Set<Product> products = new HashSet<>();
 
@@ -44,7 +45,7 @@ public class Sale {
     public Sale(Date saleDate, BigDecimal totalPrice, Product product, User user) {
         this.saleDate = saleDate;
         this.totalPrice = totalPrice;
-        this.product = product;
+//        this.product = product;
         this.user = user;
     }
 }

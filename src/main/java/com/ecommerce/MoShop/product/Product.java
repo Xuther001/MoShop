@@ -1,4 +1,4 @@
-package com.ecommerce.MoShop.common.entity;
+package com.ecommerce.MoShop.product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +16,7 @@ public class Product {
     @Id
     @GeneratedValue
     private Long id;
+
     private String name;
     private String description;
     private int stock;
