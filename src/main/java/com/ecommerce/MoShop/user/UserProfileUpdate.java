@@ -29,11 +29,12 @@ public class UserProfileUpdate {
         User user = optionalUser.get();
 
         // Update user information
-        user.setFirstname(updatedUser.getFirstname());
-        user.setLastname(updatedUser.getLastname());
-        user.setEmail(updatedUser.getEmail());
+        if (updatedUser.getFirstname() != null) {user.setFirstname(updatedUser.getFirstname());}
+        if (updatedUser.getLastname() != null) {user.setLastname(updatedUser.getLastname());}
+        if (updatedUser.getEmail() != null) {user.setEmail(updatedUser.getEmail());}
+        if (updatedUser.getPassword() != null) {user.setPassword(updatedUser.getPassword());}
+        if (updatedUser.getUsername() != null) {user.setUsername(updatedUser.getUsername());}
 
-        // Save the updated user
         User updatedUserInfo = userService.save(user);
         return ResponseEntity.ok(updatedUserInfo);
     }
