@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -27,7 +28,8 @@ public class SaleService {
     private UserRepository userRepository;
 
     public void processSale(SaleRequestDTO saleRequestDTO) {
-        User user = userRepository.findById(saleRequestDTO.getUserId().toString()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(saleRequestDTO.getUserId().toString())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         Sale sale = new Sale();
         sale.setSaleDate(new Date());
@@ -35,11 +37,26 @@ public class SaleService {
 
         BigDecimal totalPrice = BigDecimal.valueOf(0.0);
         Set<Product> products = new HashSet<>();
-        for (Long productId : saleRequestDTO.getProductIds()) {
-            Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+        for (Map.Entry<Long, Integer> entry : saleRequestDTO.getProductAndQuantities().entrySet()) {
+            Long productId = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+            if (product.getStock() < quantity) {
+                throw new IllegalArgumentException("Not enough stock available for product: " + product.getName());
+            }
+
+            product.decrementStock(quantity);
+
             products.add(product);
-            totalPrice = totalPrice.add(product.getPrice());
+
+            totalPrice = totalPrice.add(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
         }
+        
+        productRepository.saveAll(products);
 
         sale.setProducts(products);
         sale.setTotalPrice(totalPrice);
@@ -47,4 +64,5 @@ public class SaleService {
         saleRepository.save(sale);
     }
 }
+
 

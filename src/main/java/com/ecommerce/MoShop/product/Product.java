@@ -30,4 +30,11 @@ public class Product {
     public void setCarts(Set<Cart> carts) {
         this.carts = carts;
     }
+
+    public void decrementStock(int quantityToDecrement) {
+        if (quantityToDecrement > stock) {
+            throw new IllegalArgumentException("Not enough stock available for this product.");
+        }
+        stock -= quantityToDecrement;
+    }
 }
