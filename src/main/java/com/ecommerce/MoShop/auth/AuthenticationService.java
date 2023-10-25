@@ -1,6 +1,6 @@
 package com.ecommerce.MoShop.auth;
 
-import com.ecommerce.MoShop.common.entity.User;
+import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.common.security.Jwt.JwtService;
 import com.ecommerce.MoShop.common.security.model.ERole;
 import com.ecommerce.MoShop.repository.UserRepository;

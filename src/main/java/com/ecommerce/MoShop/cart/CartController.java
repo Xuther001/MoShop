@@ -1,7 +1,7 @@
 package com.ecommerce.MoShop.cart;
 
 import com.ecommerce.MoShop.product.Product;
-import com.ecommerce.MoShop.common.entity.User;
+import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.product.ProductService;
 import com.ecommerce.MoShop.common.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

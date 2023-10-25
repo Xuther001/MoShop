@@ -1,6 +1,7 @@
-package com.ecommerce.MoShop.common.entity;
+package com.ecommerce.MoShop.sale;
 
 import com.ecommerce.MoShop.product.Product;
+import com.ecommerce.MoShop.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package com.ecommerce.MoShop.common.security.service;
 
-import com.ecommerce.MoShop.common.entity.User;
+import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,6 +42,10 @@ public class UserService {
 
     public Optional<User> getUserById(String userId) {
         return userRepository.findById(userId);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
 }

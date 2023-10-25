@@ -1,4 +1,4 @@
-package com.ecommerce.MoShop.common.entity;
+package com.ecommerce.MoShop.user;
 
 import com.ecommerce.MoShop.common.security.model.ERole;
 import jakarta.persistence.*;

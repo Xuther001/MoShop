@@ -1,6 +1,6 @@
 package com.ecommerce.MoShop.cart;
 
-import com.ecommerce.MoShop.common.entity.User;
+import com.ecommerce.MoShop.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
