@@ -20,4 +20,3 @@ public class SaleController {
         return ResponseEntity.ok("Sale created successfully!");
     }
 }
-
