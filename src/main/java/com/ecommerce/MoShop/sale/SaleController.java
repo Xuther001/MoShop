@@ -20,14 +20,14 @@ public class SaleController {
     }
 
     @GetMapping("/invoice/{id}")
-    public ResponseEntity<SaleInvoice> getInvoiceDetails(@PathVariable Long id) {
-        SaleInvoice saleInvoice = saleService.getSaleInvoiceDetails(id);
+    public ResponseEntity<SaleInvoiceResponseDTO> getInvoiceDetails(@PathVariable Long id) {
+        SaleInvoiceResponseDTO saleInvoice = saleService.getSaleInvoiceDetails(id);
         return ResponseEntity.ok(saleInvoice);
     }
 
     @GetMapping("/invoices/user/{userId}")
-    public ResponseEntity<List<SaleInvoice>> getAllInvoicesForUser(@PathVariable Long userId) {
-        List<SaleInvoice> invoices = saleService.getAllInvoicesForUser(userId);
-        return ResponseEntity.ok(invoices);
+    public ResponseEntity<List<SaleInvoiceResponseDTO>> getAllInvoicesForUser(@PathVariable Long userId) {
+        List<SaleInvoiceResponseDTO> responseDTOs = saleService.getAllInvoicesForUser(userId);
+        return ResponseEntity.ok(responseDTOs);
     }
 }
