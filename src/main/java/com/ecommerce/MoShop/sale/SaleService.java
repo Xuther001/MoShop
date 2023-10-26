@@ -51,6 +51,13 @@ public class SaleService {
         return saleInvoice;
     }
 
+    public List<SaleInvoice> getAllInvoicesForUser(Long userId) {
+        User user = userRepository.findById(userId.toString())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        return saleInvoiceRepository.findByUser(user);
+    }
+
     public void processSale(SaleRequestDTO saleRequestDTO) {
         User user = userRepository.findById(saleRequestDTO.getUserId().toString())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
