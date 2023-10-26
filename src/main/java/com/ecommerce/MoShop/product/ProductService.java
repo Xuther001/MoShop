@@ -17,25 +17,30 @@ public class ProductService {
     }
 
     public Product addProduct(ProductRequestDTO productRequestDTO) {
-        // Create a new Product entity from the request data
+
         Product product = new Product();
         product.setName(productRequestDTO.getName());
         product.setDescription(productRequestDTO.getDescription());
         product.setStock(productRequestDTO.getStock());
         product.setPrice(productRequestDTO.getPrice());
-        // Add more properties if needed
 
-        // Save the product to the database
         return productRepository.save(product);
     }
 
+
+    public void updateProduct(Product product) {
+        productRepository.save(product);
+    }
+
     public List<Product> getAllProducts() {
-        // Retrieve and return a list of all products from the database
         return productRepository.findAll();
     }
 
     public Optional<Product> getProductById(Long productId) {
-        // Retrieve a product by its unique identifier (ID) from the database
         return productRepository.findById(productId);
+    }
+
+    public void removeProductById(Long productId) {
+        productRepository.deleteById(productId);
     }
 }

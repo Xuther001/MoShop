@@ -9,7 +9,7 @@ public class ProductRequestDTO {
 
     private String name;
     private String description;
-    private int stock;
+    private Integer stock;
     private BigDecimal price;
 
     public ProductRequestDTO() {
