@@ -4,19 +4,27 @@ import com.ecommerce.MoShop.product.Product;
 import com.ecommerce.MoShop.product.ProductRepository;
 import com.ecommerce.MoShop.user.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
+@Setter
+@Getter
 @Table(name = "sale_invoice")
 public class SaleInvoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Transient
+    private List<ProductDTO> productDetails;
 
     private Date invoiceDate;
 
