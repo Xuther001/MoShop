@@ -34,7 +34,7 @@ public class SaleService {
         responseDTO.setTotalPrice(saleInvoice.getTotalPrice());
 
         User user = saleInvoice.getUser();
-        SimplifiedUserDTO simplifiedUserDTO = new SimplifiedUserDTO(user.getId());
+        SimplifiedUserDTO simplifiedUserDTO = new SimplifiedUserDTO(user.getId(),user.getFirstname(), user.getLastname());
         responseDTO.setUser(simplifiedUserDTO);
 
         responseDTO.setProducts(saleInvoice.getProducts());
@@ -74,7 +74,7 @@ public class SaleService {
             responseDTO.setId(invoice.getId());
             responseDTO.setInvoiceDate(invoice.getInvoiceDate());
             responseDTO.setTotalPrice(invoice.getTotalPrice());
-            responseDTO.setUser(new SimplifiedUserDTO(user.getId()));
+            responseDTO.setUser(new SimplifiedUserDTO(user.getId(),user.getFirstname(), user.getLastname()));
             responseDTO.setProducts(invoice.getProducts());
 
             List<ProductDTO> productDetails = new ArrayList<>();

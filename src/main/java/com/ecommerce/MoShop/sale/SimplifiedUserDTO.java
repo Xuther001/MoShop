@@ -6,10 +6,15 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SimplifiedUserDTO {
-    private Long id;
 
-    public SimplifiedUserDTO(Long id) {
+    private Long id;
+    private String firstname;
+    private String lastname;
+
+    public SimplifiedUserDTO(Long id, String firstname, String lastname) {
         this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
 }
