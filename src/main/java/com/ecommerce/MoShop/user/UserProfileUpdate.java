@@ -2,7 +2,10 @@ package com.ecommerce.MoShop.user;
 
 import com.ecommerce.MoShop.common.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,9 +21,18 @@ public class UserProfileUpdate {
         this.userService = userService;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        Optional<User> optionalUser = userService.getUserById(id.toString());
+    @PutMapping("/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User updatedUser) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String usernameFromToken = authentication.getName();
+
+        if (!username.equals(usernameFromToken)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Update Error: Forbidden. Provided username does not match authenticated user's username");
+        }
+
+        Optional<User> optionalUser = userService.getUserByUsername(username);
 
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
