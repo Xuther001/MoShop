@@ -39,6 +39,11 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .streetAddress(request.getStreetAddress())
+                .city(request.getCity())
+                .state(request.getState())
+                .postalCode(request.getPostalCode())
+                .country(request.getCountry())
                 .signupDate(new Date())
                 .role(ERole.ROLE_USER)
                 .build();

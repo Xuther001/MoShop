@@ -56,4 +56,6 @@ public class CartController {
         Optional<Product> product = productService.getProductById(productId);
         cartService.removeFromCart(user, product);
     }
+
+    //clear cart
 }

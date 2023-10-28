@@ -19,4 +19,10 @@ public class RegisterRequest {
     private String password;
     private String username;
     private LocalDateTime timestamp;
+    private String streetAddress;
+    private String city;
+    private String state;
+    private String postalCode;
+    private String country;
+
 }

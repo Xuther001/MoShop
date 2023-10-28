@@ -34,6 +34,11 @@ public class UserProfileUpdate {
         if (updatedUser.getEmail() != null) {user.setEmail(updatedUser.getEmail());}
         if (updatedUser.getPassword() != null) {user.setPassword(updatedUser.getPassword());}
         if (updatedUser.getUsername() != null) {user.setUsername(updatedUser.getUsername());}
+        if (updatedUser.getStreetAddress() != null) {user.setStreetAddress(updatedUser.getStreetAddress());}
+        if (updatedUser.getCity() != null) {user.setCity(updatedUser.getCity());}
+        if (updatedUser.getState() != null) {user.setState(updatedUser.getState());}
+        if (updatedUser.getPostalCode() != null) {user.setPostalCode(updatedUser.getPostalCode());}
+        if (updatedUser.getCountry() != null) {user.setCountry(updatedUser.getCountry());}
 
         User updatedUserInfo = userService.save(user);
         return ResponseEntity.ok(updatedUserInfo);
