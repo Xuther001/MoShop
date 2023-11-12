@@ -1,6 +1,5 @@
 package com.ecommerce.MoShop.user;
 
-import com.ecommerce.MoShop.common.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +11,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserProfileUpdate {
+public class UserProfileUpdateController {
 
     private final UserService userService;
 
     @Autowired
-    public UserProfileUpdate(UserService userService) {
+    public UserProfileUpdateController(UserService userService) {
         this.userService = userService;
     }
 

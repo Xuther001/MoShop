@@ -1,23 +1,38 @@
-package com.ecommerce.MoShop.common.security.service;
+package com.ecommerce.MoShop.user;
 
-import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 public class UserService {
     @Autowired
-    private UserRepository userRepository; // Inject your UserRepository to perform user-related database operations
+    private UserRepository userRepository;
 
     public Optional<User> findByUsername(String username) {
-        // Implement the logic to find a user by username from your repository
-        // For example, you can use a UserRepository to find the user by username.
         return userRepository.findByUsername(username);
+    }
+
+    @Transactional
+    public void addAddressToUser(Optional<User> optionalUser, Address newAddress) {
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.getAddresses().size() < 5) {
+                newAddress.setUser(user);
+                user.getAddresses().add(newAddress);
+                userRepository.save(user);
+            } else {
+                throw new AddressLimitExceededException("Maximum allowed addresses reached.");
+            }
+        } else {
+            throw new IllegalArgumentException("User cannot be null.");
+        }
     }
 
     public User getCurrentUser() {
@@ -25,7 +40,7 @@ public class UserService {
 
         if (authentication == null || !authentication.isAuthenticated()) {
             // Handle the case where the user is not authenticated
-            // You can return null or throw an exception, or handle it as needed.
+            // Can return null or throw an exception
             return null;
         }
 
@@ -34,8 +49,8 @@ public class UserService {
         if (principal instanceof User) {
             return (User) principal;
         } else {
-            // Handle the case where the principal is not an instance of your User class
-            // You can return null or throw an exception, or handle it as needed.
+            // Handle the case where the principal is not an instance of User class
+            // Can return null or throw an exception, or handle it as needed.
             return null;
         }
     }
