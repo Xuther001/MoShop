@@ -5,6 +5,8 @@ import com.ecommerce.MoShop.product.ProductService;
 import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -58,7 +60,13 @@ public class CartController {
 
     @PostMapping("/add")
     public void addToCart(@RequestBody CartRequestDTO request) {
-        Optional<User> user = userService.getUserByUsername(request.getUsername());
+        String loggedInUsername = getLoggedInUsername();
+
+        if (!loggedInUsername.equals(request.getUsername())) {
+            throw new IllegalArgumentException("You can only add products to your own cart.");
+        }
+
+        Optional<User> user = userService.getUserByUsername(loggedInUsername);
         Optional<Product> product = productService.getProductById(request.getProductId());
 
         if (user.isPresent() && product.isPresent()) {
@@ -69,14 +77,25 @@ public class CartController {
     }
 
     @PostMapping("/remove")
-    public void removeFromCart(@RequestParam String username, @RequestParam Long productId) {
-        Optional<User> user = userService.getUserByUsername(username);
+    public void removeFromCart(@RequestParam Long productId) {
+        // Ensure the logged-in user is modifying their own cart
+        String loggedInUsername = getLoggedInUsername();
+        Optional<User> user = userService.getUserByUsername(loggedInUsername);
         Optional<Product> product = productService.getProductById(productId);
 
         if (user.isPresent() && product.isPresent()) {
             cartService.removeFromCart(user, product);
         } else {
             throw new IllegalArgumentException("User or Product not found");
+        }
+    }
+
+    private String getLoggedInUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof User) {
+            return ((User) authentication.getPrincipal()).getUsername();
+        } else {
+            return authentication.getName();
         }
     }
 }
