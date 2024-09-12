@@ -1,13 +1,12 @@
 package com.ecommerce.MoShop.cart;
 
 import com.ecommerce.MoShop.user.User;
-import com.ecommerce.MoShop.product.Product;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -24,13 +23,8 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cart_product",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CartItem> cartItems = new HashSet<>();
 
     public Cart() {
     }
@@ -39,18 +33,19 @@ public class Cart {
         this.user = user;
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
-        product.getCarts().add(this); // Bidirectional relationship, if necessary
+    public void addCartItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
     }
 
-    public void removeProduct(Optional<Product> product) {
-        products.remove(product);
+    public void removeCartItem(CartItem cartItem) {
+        cartItems.remove(cartItem);
+        cartItem.setCart(null);
     }
 
     public BigDecimal calculateTotalPrice() {
-        return products.stream()
-                .map(Product::getPrice)
+        return cartItems.stream()
+                .map(CartItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

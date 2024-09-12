@@ -1,12 +1,10 @@
 package com.ecommerce.MoShop.product;
 
-import com.ecommerce.MoShop.cart.Cart;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Entity
 @Data
@@ -14,7 +12,7 @@ import java.util.Set;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -22,14 +20,6 @@ public class Product {
     private int stock;
     private int category;
     private BigDecimal price;
-
-    @Getter
-    @ManyToMany(mappedBy = "products")
-    private Set<Cart> carts;
-
-    public void setCarts(Set<Cart> carts) {
-        this.carts = carts;
-    }
 
     public void decrementStock(int quantityToDecrement) {
         if (quantityToDecrement > stock) {
