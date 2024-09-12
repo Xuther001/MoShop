@@ -1,9 +1,9 @@
 package com.ecommerce.MoShop.cart;
 
+import com.ecommerce.MoShop.product.Product;
 import com.ecommerce.MoShop.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -29,6 +29,7 @@ public class Cart {
     public Cart() {
     }
 
+    // Constructor with user
     public Cart(User user) {
         this.user = user;
     }
