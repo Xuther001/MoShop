@@ -24,6 +24,18 @@ public class ProductController {
         return productService.addProduct(productRequestDTO);
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<?> getProductById(@PathVariable Long productId) {
+        Optional<Product> optionalProduct = productService.getProductById(productId);
+
+        if (optionalProduct.isPresent()) {
+            return ResponseEntity.ok(optionalProduct.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Product not found with ID: " + productId);
+        }
+    }
+
     @PutMapping("/{productId}")
     public ResponseEntity<String> editProduct(@PathVariable Long productId, @RequestBody ProductRequestDTO productRequestDTO) {
 

@@ -1,6 +1,7 @@
 package com.ecommerce.MoShop.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,19 +21,35 @@ public class ReviewController {
         this.productService = productService;
     }
 
-    @PostMapping
-    @RequestMapping("/reviews")
-    public Review addReview(@RequestBody Review review) {
-        return reviewService.saveReview(review);
+    @PostMapping("/reviews")
+    public ResponseEntity<Review> addReview(@RequestBody ReviewProductDTO reviewRequestDTO) {
+        // Fetch product using productId from the DTO
+        Product product = productService.getProductById(reviewRequestDTO.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // Create and populate Review entity
+        Review review = new Review();
+        review.setUsername(reviewRequestDTO.getUsername());
+        review.setProduct(product);
+        review.setComment(reviewRequestDTO.getComment());
+        review.setRating(reviewRequestDTO.getRating());
+
+        // Save the review
+        Review savedReview = reviewService.saveReview(review);
+        return ResponseEntity.ok(savedReview);
     }
 
     @GetMapping("/{productId}/reviews")
     public List<ReviewProductDTO> getReviewsByProduct(@PathVariable Long productId) {
         Optional<Product> product = productService.getProductById(productId);
-        return reviewService.getReviewsByProduct(product)
-                .stream()
-                .map(ReviewProductDTO::fromReview)
-                .collect(Collectors.toList());
+        if (product.isPresent()) {
+            return reviewService.getReviewsByProduct(Optional.of(product.get()))
+                    .stream()
+                    .map(ReviewProductDTO::fromReview)
+                    .collect(Collectors.toList());
+        } else {
+            // You could return an empty list or handle this case differently
+            return List.of();
+        }
     }
-
 }
