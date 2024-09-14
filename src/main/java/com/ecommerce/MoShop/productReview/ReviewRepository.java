@@ -1,5 +1,6 @@
-package com.ecommerce.MoShop.product;
+package com.ecommerce.MoShop.productReview;
 
+import com.ecommerce.MoShop.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

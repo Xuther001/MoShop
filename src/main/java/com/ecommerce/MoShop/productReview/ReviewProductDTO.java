@@ -1,4 +1,4 @@
-package com.ecommerce.MoShop.product;
+package com.ecommerce.MoShop.productReview;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

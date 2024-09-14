@@ -1,5 +1,7 @@
-package com.ecommerce.MoShop.product;
+package com.ecommerce.MoShop.productReview;
 
+import com.ecommerce.MoShop.product.Product;
+import com.ecommerce.MoShop.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
