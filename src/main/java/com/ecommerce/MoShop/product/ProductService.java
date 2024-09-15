@@ -21,6 +21,7 @@ public class ProductService {
         Product product = new Product();
         product.setName(productRequestDTO.getName());
         product.setDescription(productRequestDTO.getDescription());
+        product.setImageUrl(productRequestDTO.getImageUrl());
         product.setStock(productRequestDTO.getStock());
         product.setPrice(productRequestDTO.getPrice());
 

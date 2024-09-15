@@ -45,6 +45,8 @@ public class ProductController {
             Product existingProduct = optionalProduct.get();
             if(productRequestDTO.getName() != null) {
             existingProduct.setName(productRequestDTO.getName());}
+            if(productRequestDTO.getImageUrl() != null) {
+            existingProduct.setImageUrl(productRequestDTO.getImageUrl());}
             if(productRequestDTO.getDescription() != null) {
             existingProduct.setDescription(productRequestDTO.getDescription());}
             if(productRequestDTO.getStock() != null) {
