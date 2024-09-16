@@ -16,8 +16,9 @@ public class CartResponseDTO {
     @Getter
     @Setter
     public static class CartItemDTO {
-        private Long id;
-        private Long productId;
+        private String productName;
+        private String productImageUrl;
+        private String productDescription;
         private Integer quantity;
         private BigDecimal totalPrice;
     }

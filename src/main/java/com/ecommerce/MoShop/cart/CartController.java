@@ -46,8 +46,9 @@ public class CartController {
         Set<CartResponseDTO.CartItemDTO> cartItemDTOs = cart.getCartItems().stream()
                 .map(item -> {
                     CartResponseDTO.CartItemDTO itemDTO = new CartResponseDTO.CartItemDTO();
-                    itemDTO.setId(item.getId());
-                    itemDTO.setProductId(item.getProduct().getId());
+                    itemDTO.setProductName(item.getName());
+                    itemDTO.setProductImageUrl(item.getImageUrl());
+                    itemDTO.setProductDescription(item.getDescription());
                     itemDTO.setQuantity(item.getQuantity());
                     itemDTO.setTotalPrice(item.getTotalPrice());
                     return itemDTO;

@@ -26,13 +26,19 @@ public class CartItem {
     private Product product;
 
     private int quantity;
+    private String name;
+    private String imageUrl;
+    private String description;
 
     public CartItem() {
     }
 
-    public CartItem(Cart cart, Product product, int quantity) {
+    public CartItem(Cart cart, Product product, String name, String imageUrl, String description, int quantity) {
         this.cart = cart;
         this.product = product;
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
         this.quantity = quantity;
     }
 
