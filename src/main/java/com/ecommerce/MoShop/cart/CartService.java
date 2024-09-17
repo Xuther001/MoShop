@@ -55,7 +55,7 @@ public class CartService {
             CartItem cartItem = cart.getCartItems().stream()
                     .filter(item -> item.getProduct().equals(product))
                     .findFirst()
-                    .orElse(null);
+                    .orElse(null); 
 
             if (cartItem != null) {
                 cart.removeCartItem(cartItem);
