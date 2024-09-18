@@ -29,6 +29,10 @@ public class CartService {
         User user = userOptional.orElseThrow(() -> new IllegalArgumentException("User not found"));
         Product product = productOptional.orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
+        if (product.getStock() < quantity) {
+            throw new IllegalArgumentException("Not enough stock available");
+        }
+
         Cart cart = cartRepository.findByUser(user).orElse(new Cart(user));
 
         CartItem cartItem = cart.getCartItems().stream()
@@ -43,6 +47,9 @@ public class CartService {
             cart.addCartItem(cartItem);
         }
 
+        product.setStock(product.getStock() - quantity);
+        productRepository.save(product);
+
         cartRepository.save(cart);
     }
 
@@ -55,7 +62,7 @@ public class CartService {
             CartItem cartItem = cart.getCartItems().stream()
                     .filter(item -> item.getProduct().equals(product))
                     .findFirst()
-                    .orElse(null); 
+                    .orElse(null);
 
             if (cartItem != null) {
                 cart.removeCartItem(cartItem);

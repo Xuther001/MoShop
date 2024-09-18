@@ -32,10 +32,11 @@ public class CartController {
     public CartResponseDTO getCartForUser(@PathVariable String username) {
         User user = userService.getUserByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Cart cart = cartService.getCartForUser(Optional.ofNullable(user))
-                .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
-
-        return convertToCartResponseDTO(cart);
+        Optional<Cart> cartOptional = cartService.getCartForUser(Optional.of(user));
+        if (cartOptional.isEmpty()) {
+            return new CartResponseDTO();
+        }
+        return convertToCartResponseDTO(cartOptional.get());
     }
 
     private CartResponseDTO convertToCartResponseDTO(Cart cart) {
