@@ -68,14 +68,25 @@ public class CartController {
             throw new IllegalArgumentException("You can only add products to your own cart.");
         }
 
-        Optional<User> user = userService.getUserByUsername(loggedInUsername);
-        Optional<Product> product = productService.getProductById(request.getProductId());
+        Optional<User> userOptional = userService.getUserByUsername(loggedInUsername);
+        Optional<Product> productOptional = productService.getProductById(request.getProductId());
 
-        if (user.isPresent() && product.isPresent()) {
-            cartService.addToCart(user, product, request.getQuantity());
-        } else {
-            throw new IllegalArgumentException("User or Product not found");
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
         }
+
+        if (productOptional.isEmpty()) {
+            throw new IllegalArgumentException("Product not found");
+        }
+
+        User user = userOptional.get();
+        Product product = productOptional.get();
+
+        if (product.getStock() < request.getQuantity()) {
+            throw new IllegalArgumentException("Insufficient stock available");
+        }
+
+        cartService.addToCart(userOptional, productOptional, request.getQuantity());
     }
 
     @PostMapping("/remove")
