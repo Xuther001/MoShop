@@ -16,6 +16,7 @@ public class CartResponseDTO {
     @Getter
     @Setter
     public static class CartItemDTO {
+        private Long productId;
         private String productName;
         private String productImageUrl;
         private String productDescription;

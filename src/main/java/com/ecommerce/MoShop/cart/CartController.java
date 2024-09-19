@@ -48,6 +48,7 @@ public class CartController {
                 .map(item -> {
                     CartResponseDTO.CartItemDTO itemDTO = new CartResponseDTO.CartItemDTO();
                     itemDTO.setProductName(item.getName());
+                    itemDTO.setProductId(item.getId());
                     itemDTO.setProductImageUrl(item.getImageUrl());
                     itemDTO.setProductDescription(item.getDescription());
                     itemDTO.setQuantity(item.getQuantity());
