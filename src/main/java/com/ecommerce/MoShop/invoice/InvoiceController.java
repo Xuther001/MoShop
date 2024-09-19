@@ -30,12 +30,12 @@ public class InvoiceController {
     }
 
     @GetMapping("/{username}")
-    public InvoiceDTO getInvoice(@PathVariable String username) {
+    public List<InvoiceDTO> getInvoices(@PathVariable String username) {
         List<Invoice> invoices = invoiceService.getInvoicesByUsername(username);
         if (invoices.isEmpty()) {
             throw new IllegalArgumentException("Invoice not found for user: " + username);
         }
-        return convertToDTO(invoices.get(0));
+        return invoices.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     private InvoiceDTO convertToDTO(Invoice invoice) {
