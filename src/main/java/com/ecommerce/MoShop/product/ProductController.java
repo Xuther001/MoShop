@@ -20,12 +20,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
-        return productService.addProduct(productRequestDTO);
+    public ResponseEntity<?> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+        Product newProduct = productService.addProduct(productRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<?> getProductById(@PathVariable Long productId) {
+    public ResponseEntity<Object> getProductById(@PathVariable Long productId) {
         Optional<Product> optionalProduct = productService.getProductById(productId);
 
         if (optionalProduct.isPresent()) {
@@ -43,27 +44,17 @@ public class ProductController {
         if (optionalProduct.isPresent()) {
 
             Product existingProduct = optionalProduct.get();
-            if(productRequestDTO.getName() != null) {
-            existingProduct.setName(productRequestDTO.getName());}
-            if(productRequestDTO.getImageUrl() != null) {
-            existingProduct.setImageUrl(productRequestDTO.getImageUrl());}
-            if(productRequestDTO.getDescription() != null) {
-            existingProduct.setDescription(productRequestDTO.getDescription());}
-            if(productRequestDTO.getStock() != null) {
-            existingProduct.setStock(productRequestDTO.getStock());}
-            if(productRequestDTO.getPrice() != null) {
-            existingProduct.setPrice(productRequestDTO.getPrice());}
+            if (productRequestDTO.getName() != null) existingProduct.setName(productRequestDTO.getName());
+            if (productRequestDTO.getImageUrl() != null) existingProduct.setImageUrl(productRequestDTO.getImageUrl());
+            if (productRequestDTO.getDescription() != null) existingProduct.setDescription(productRequestDTO.getDescription());
+            if (productRequestDTO.getStock() != null) existingProduct.setStock(productRequestDTO.getStock());
+            if (productRequestDTO.getPrice() != null) existingProduct.setPrice(productRequestDTO.getPrice());
 
             productService.updateProduct(existingProduct);
             return ResponseEntity.ok("Product updated successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found with ID: " + productId);
         }
-    }
-
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
     }
 
     @DeleteMapping("/{productId}")
@@ -75,5 +66,10 @@ public class ProductController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found with ID: " + productId);
         }
+    }
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 }
