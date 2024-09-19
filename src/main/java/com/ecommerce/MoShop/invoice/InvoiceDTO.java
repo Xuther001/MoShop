@@ -12,6 +12,7 @@ import java.util.Set;
 public class InvoiceDTO {
 
     private Long id;
+    private String productName;
     private BigDecimal totalPrice;
     private LocalDateTime purchaseDate;
     private String paymentStatus;
@@ -20,6 +21,7 @@ public class InvoiceDTO {
     @Setter
     @Getter
     public static class InvoiceItemDTO {
+        private String productName;
         private Long id;
         private Long productId;
         private Integer quantity;

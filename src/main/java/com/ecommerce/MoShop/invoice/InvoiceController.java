@@ -48,6 +48,7 @@ public class InvoiceController {
             InvoiceDTO.InvoiceItemDTO itemDTO = new InvoiceDTO.InvoiceItemDTO();
             itemDTO.setId(item.getId());
             itemDTO.setProductId(item.getProduct().getId());
+            itemDTO.setProductName(item.getProduct().getName());
             itemDTO.setQuantity(item.getQuantity());
             itemDTO.setTotalPrice(item.getTotalPrice());
             return itemDTO;
