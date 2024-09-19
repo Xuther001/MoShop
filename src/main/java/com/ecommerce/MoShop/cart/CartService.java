@@ -25,6 +25,14 @@ public class CartService {
         return cartRepository.findByUser(user);
     }
 
+    public void removeCart(Cart cart) {
+        if (cart != null) {
+            cartRepository.delete(cart);
+        } else {
+            throw new IllegalArgumentException("Cart not found");
+        }
+    }
+
     public void addToCart(Optional<User> userOptional, Optional<Product> productOptional, Integer quantity) {
         User user = userOptional.orElseThrow(() -> new IllegalArgumentException("User not found"));
         Product product = productOptional.orElseThrow(() -> new IllegalArgumentException("Product not found"));
