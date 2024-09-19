@@ -90,6 +90,22 @@ public class CartController {
         cartService.addToCart(userOptional, productOptional, request.getQuantity());
     }
 
+    @PostMapping("/update")
+    public void updateCartItemQuantity(@RequestParam Long productId, @RequestParam int quantity) {
+        String loggedInUsername = getLoggedInUsername();
+        Optional<User> user = userService.getUserByUsername(loggedInUsername);
+        Optional<Product> product = productService.getProductById(productId);
+
+        if (user.isPresent() && product.isPresent()) {
+            if (quantity <= 0) {
+                throw new IllegalArgumentException("Quantity must be greater than zero");
+            }
+            cartService.updateQuantity(user, product, quantity);
+        } else {
+            throw new IllegalArgumentException("User or Product not found");
+        }
+    }
+
     @PostMapping("/remove")
     public void removeFromCart(@RequestParam Long productId) {
         // Ensure the logged-in user is modifying their own cart

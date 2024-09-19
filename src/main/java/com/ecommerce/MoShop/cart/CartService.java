@@ -70,4 +70,36 @@ public class CartService {
             }
         }
     }
+
+    public void updateQuantity(Optional<User> userOptional, Optional<Product> productOptional, int quantity) {
+        if (userOptional.isPresent() && productOptional.isPresent()) {
+            User user = userOptional.get();
+            Product product = productOptional.get();
+            Optional<Cart> cartOptional = getCartForUser(Optional.of(user));
+
+            if (cartOptional.isPresent()) {
+                Cart cart = cartOptional.get();
+                Optional<CartItem> cartItemOptional = cart.getCartItems().stream()
+                        .filter(item -> item.getProduct().equals(product))
+                        .findFirst();
+
+                if (cartItemOptional.isPresent()) {
+                    CartItem cartItem = cartItemOptional.get();
+                    if (quantity > 0) {
+                        cartItem.setQuantity(quantity);
+                    } else {
+                        cart.getCartItems().remove(cartItem);
+                    }
+                    cart.calculateTotalPrice();
+                    cartRepository.save(cart);
+                } else {
+                    throw new IllegalArgumentException("Item not found in cart");
+                }
+            } else {
+                throw new IllegalArgumentException("Cart not found");
+            }
+        } else {
+            throw new IllegalArgumentException("User or Product not found");
+        }
+    }
 }
