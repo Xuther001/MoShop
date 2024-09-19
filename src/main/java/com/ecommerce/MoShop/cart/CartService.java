@@ -71,7 +71,7 @@ public class CartService {
         }
     }
 
-    public void updateQuantity(Optional<User> userOptional, Optional<Product> productOptional, int quantity) {
+    public void updateQuantity(Optional<User> userOptional, Optional<Product> productOptional, int newQuantity) {
         if (userOptional.isPresent() && productOptional.isPresent()) {
             User user = userOptional.get();
             Product product = productOptional.get();
@@ -85,12 +85,32 @@ public class CartService {
 
                 if (cartItemOptional.isPresent()) {
                     CartItem cartItem = cartItemOptional.get();
-                    if (quantity > 0) {
-                        cartItem.setQuantity(quantity);
+                    int currentQuantity = cartItem.getQuantity();
+
+                    // Refund the current quantity to the product stock
+                    product.setStock(product.getStock() + currentQuantity);
+
+                    if (newQuantity > 0) {
+                        // Check if the stock can accommodate the new quantity
+                        if (product.getStock() < newQuantity) {
+                            throw new IllegalArgumentException("Insufficient stock available");
+                        }
+
+                        // Deduct the new quantity from stock
+                        product.setStock(product.getStock() - newQuantity);
+
+                        // Update the cart item's quantity
+                        cartItem.setQuantity(newQuantity);
                     } else {
+                        // Remove item from the cart if the new quantity is zero or less
                         cart.getCartItems().remove(cartItem);
                     }
+
+                    // Recalculate the total price of the cart
                     cart.calculateTotalPrice();
+
+                    // Save the updated product and cart
+                    productRepository.save(product);
                     cartRepository.save(cart);
                 } else {
                     throw new IllegalArgumentException("Item not found in cart");
@@ -102,4 +122,5 @@ public class CartService {
             throw new IllegalArgumentException("User or Product not found");
         }
     }
+
 }
