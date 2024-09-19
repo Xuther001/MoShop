@@ -19,10 +19,10 @@ public class InvoiceController {
     }
 
     @PostMapping("/checkout")
-    public Invoice checkout(@RequestParam String username) {
+    public String checkout(@RequestParam String username) {
         User user = userService.getUserByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return invoiceService.createInvoice(user);
+        return "Purchase Successful";
     }
 
     @GetMapping("/{invoiceId}")
