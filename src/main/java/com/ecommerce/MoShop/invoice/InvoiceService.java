@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,9 +31,9 @@ public class InvoiceService {
         this.productService = productService;
     }
 
-    // Method to get an invoice by its ID
-    public Optional<Invoice> getInvoiceById(Long invoiceId) {
-        return invoiceRepository.findById(invoiceId);
+    // Method to get invoices by username
+    public List<Invoice> getInvoicesByUsername(String username) {
+        return invoiceRepository.findByUsername(username);
     }
 
     @Transactional
