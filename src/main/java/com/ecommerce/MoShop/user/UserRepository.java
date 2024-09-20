@@ -1,6 +1,5 @@
-package com.ecommerce.MoShop.repository;
+package com.ecommerce.MoShop.user;
 
-import com.ecommerce.MoShop.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -13,18 +13,35 @@ public class UserAddressController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/users/{userId}/addresses")
-    public ResponseEntity<String> addAddressToUser(@PathVariable String userId, @RequestBody Address newAddress) {
+    @PostMapping("/api/users/{userId}/address")
+    public ResponseEntity<String> addAddressToUser(@PathVariable String userId, @RequestBody UserAddress newUserAddress) {
         Optional<User> user = userService.getUserById(userId);
-        userService.addAddressToUser(user, newAddress);
+        userService.addAddressToUser(user, newUserAddress);
         return ResponseEntity.ok("Address added successfully.");
     }
 
-    @GetMapping("/api/users/{userId}/addresses")
-    public ResponseEntity<List<Address>> getAllAddresses(@PathVariable String userId) {
+    @GetMapping("/api/users/{userId}/address")
+    public ResponseEntity<List<UserAddressDTO>> getUserAddresses(@PathVariable String userId) {
         Optional<User> user = userService.getUserById(userId);
+
         if (user.isPresent()) {
-            return ResponseEntity.ok(user.get().getAddresses());
+            List<UserAddress> addresses = userService.getAddressesForUser(user.get());
+
+            if (!addresses.isEmpty()) {
+                List<UserAddressDTO> addressDTOs = addresses.stream()
+                        .map(address -> new UserAddressDTO(
+                                address.getId(),
+                                address.getStreetAddress(),
+                                address.getCity(),
+                                address.getState(),
+                                address.getPostalCode(),
+                                address.getCountry()))
+                        .toList();
+
+                return ResponseEntity.ok(addressDTOs);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }

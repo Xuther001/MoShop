@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "address")
-public class Address {
+public class UserAddress {
 
     @Id
     @GeneratedValue

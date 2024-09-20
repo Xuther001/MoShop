@@ -1,16 +1,16 @@
 package com.ecommerce.MoShop.auth;
 
-import com.ecommerce.MoShop.user.AddressRepository;
+import com.ecommerce.MoShop.user.UserAddressRepository;
 import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.common.security.Jwt.JwtService;
 import com.ecommerce.MoShop.common.security.model.ERole;
-import com.ecommerce.MoShop.repository.UserRepository;
+import com.ecommerce.MoShop.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.ecommerce.MoShop.user.Address;
+import com.ecommerce.MoShop.user.UserAddress;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final AddressRepository addressRepository;
+    private final UserAddressRepository userAddressRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
 
@@ -52,7 +52,7 @@ public class AuthenticationService {
                 .build();
         repository.save(user);
 
-        var address = new Address();
+        var address = new UserAddress();
         address.setStreetAddress(request.getStreetAddress());
         address.setCity(request.getCity());
         address.setState(request.getState());
@@ -60,7 +60,7 @@ public class AuthenticationService {
         address.setCountry(request.getCountry());
         address.setUser(user);
 
-        addressRepository.save(address);
+        userAddressRepository.save(address);
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

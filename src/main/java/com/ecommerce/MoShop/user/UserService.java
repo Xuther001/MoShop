@@ -1,12 +1,11 @@
 package com.ecommerce.MoShop.user;
 
-import com.ecommerce.MoShop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,19 +14,32 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private AddressRepository addressRepository;
+    private UserAddressRepository userAddressRepository;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public void addAddressToUser(Optional<User> user, Address newAddress) {
+    public void addAddressToUser(Optional<User> user, UserAddress newUserAddress) {
         if (user.isPresent()) {
-            newAddress.setUser(user.get());
-            addressRepository.save(newAddress);  // Save address to the DB
+            newUserAddress.setUser(user.get());
+            userAddressRepository.save(newUserAddress);  // Save address to the DB
         } else {
             throw new RuntimeException("User not found");
         }
+    }
+
+//    public List<UserAddress> getAddressesForCurrentUser() {
+//        User currentUser = getCurrentUser();
+//        if (currentUser != null) {
+//            return userAddressRepository.findByUser(currentUser);
+//        } else {
+//            throw new RuntimeException("Current user not found or not authenticated");
+//        }
+//    }
+
+    public List<UserAddress> getAddressesForUser(User user) {
+        return userAddressRepository.findByUser(user);
     }
 
     public User getCurrentUser() {

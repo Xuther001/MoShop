@@ -1,6 +1,6 @@
 package com.ecommerce.MoShop.common.security.Jwt;
 
-import com.ecommerce.MoShop.repository.UserRepository;
+import com.ecommerce.MoShop.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
