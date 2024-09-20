@@ -20,6 +20,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<User> getUserByUserId(Long userId) {
+        return userRepository.findById(String.valueOf(userId));
+    }
+
     public void addAddressToUser(Optional<User> user, UserAddress newUserAddress) {
         if (user.isPresent()) {
             newUserAddress.setUser(user.get());
@@ -28,15 +32,6 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
     }
-
-//    public List<UserAddress> getAddressesForCurrentUser() {
-//        User currentUser = getCurrentUser();
-//        if (currentUser != null) {
-//            return userAddressRepository.findByUser(currentUser);
-//        } else {
-//            throw new RuntimeException("Current user not found or not authenticated");
-//        }
-//    }
 
     public List<UserAddress> getAddressesForUser(User user) {
         return userAddressRepository.findByUser(user);
@@ -62,7 +57,7 @@ public class UserService {
         }
     }
 
-    public Optional<User> getUserById(String userId) {
+    public Optional<User> getUserByUserId(String userId) {
         return userRepository.findById(userId);
     }
 

@@ -28,9 +28,9 @@ public class CartController {
         this.productService = productService;
     }
 
-    @GetMapping("/{username}")
-    public CartResponseDTO getCartForUser(@PathVariable String username) {
-        User user = userService.getUserByUsername(username)
+    @GetMapping("/{userId}")
+    public CartResponseDTO getCartForUser(@PathVariable Long userId) {
+        User user = userService.getUserByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         Optional<Cart> cartOptional = cartService.getCartForUser(Optional.of(user));
         if (cartOptional.isEmpty()) {
@@ -108,7 +108,6 @@ public class CartController {
 
     @PostMapping("/remove")
     public void removeFromCart(@RequestParam Long productId) {
-        // Ensure the logged-in user is modifying their own cart
         String loggedInUsername = getLoggedInUsername();
         Optional<User> user = userService.getUserByUsername(loggedInUsername);
         Optional<Product> product = productService.getProductById(productId);

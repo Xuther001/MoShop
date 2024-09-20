@@ -15,14 +15,14 @@ public class UserAddressController {
 
     @PostMapping("/api/users/{userId}/address")
     public ResponseEntity<String> addAddressToUser(@PathVariable String userId, @RequestBody UserAddress newUserAddress) {
-        Optional<User> user = userService.getUserById(userId);
+        Optional<User> user = userService.getUserByUserId(userId);
         userService.addAddressToUser(user, newUserAddress);
         return ResponseEntity.ok("Address added successfully.");
     }
 
     @GetMapping("/api/users/{userId}/address")
     public ResponseEntity<List<UserAddressDTO>> getUserAddresses(@PathVariable String userId) {
-        Optional<User> user = userService.getUserById(userId);
+        Optional<User> user = userService.getUserByUserId(userId);
 
         if (user.isPresent()) {
             List<UserAddress> addresses = userService.getAddressesForUser(user.get());
