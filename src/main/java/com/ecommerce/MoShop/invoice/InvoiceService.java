@@ -35,6 +35,9 @@ public class InvoiceService {
     public List<Invoice> getInvoicesByUsername(String username) {
         return invoiceRepository.findByUsername(username);
     }
+    public List<Invoice> getInvoicesByUserId(Long userId) {
+        return invoiceRepository.findByUserId(userId);
+    }
 
     @Transactional
     public Invoice createInvoice(User user) {

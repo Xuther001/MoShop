@@ -29,11 +29,11 @@ public class InvoiceController {
         return "Transaction Successful";
     }
 
-    @GetMapping("/{username}")
-    public List<InvoiceDTO> getInvoices(@PathVariable String username) {
-        List<Invoice> invoices = invoiceService.getInvoicesByUsername(username);
+    @GetMapping("/{userId}")
+    public List<InvoiceDTO> getInvoices(@PathVariable Long userId) {
+        List<Invoice> invoices = invoiceService.getInvoicesByUserId(userId);
         if (invoices.isEmpty()) {
-            throw new IllegalArgumentException("Invoice not found for user: " + username);
+            throw new IllegalArgumentException("Invoice not found for user: " + userId);
         }
         return invoices.stream().map(this::convertToDTO).collect(Collectors.toList());
     }

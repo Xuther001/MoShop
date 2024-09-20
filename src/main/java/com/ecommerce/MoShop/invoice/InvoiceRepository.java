@@ -12,4 +12,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     @Query("SELECT i FROM Invoice i WHERE i.user.username = :username")
     List<Invoice> findByUsername(@Param("username") String username);
+
+    @Query("SELECT i FROM Invoice i WHERE i.user.id = :userId")
+    List<Invoice> findByUserId(@Param("userId") Long userId);
 }
