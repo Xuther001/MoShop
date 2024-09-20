@@ -14,24 +14,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    @Transactional
-    public void addAddressToUser(Optional<User> optionalUser, Address newAddress) {
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            if (user.getAddresses().size() < 5) {
-                newAddress.setUser(user);
-                user.getAddresses().add(newAddress);
-                userRepository.save(user);
-            } else {
-                throw new AddressLimitExceededException("Maximum allowed addresses reached.");
-            }
+    public void addAddressToUser(Optional<User> user, Address newAddress) {
+        if (user.isPresent()) {
+            newAddress.setUser(user.get());
+            addressRepository.save(newAddress);  // Save address to the DB
         } else {
-            throw new IllegalArgumentException("User cannot be null.");
+            throw new RuntimeException("User not found");
         }
     }
 
