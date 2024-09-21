@@ -33,11 +33,6 @@ public class User implements UserDetails {
     private String password;
     private String username;
     private Date signupDate;
-    private String streetAddress;
-    private String city;
-    private String state;
-    private String postalCode;
-    private String country;
 
     @Enumerated(EnumType.STRING)
     private ERole role;

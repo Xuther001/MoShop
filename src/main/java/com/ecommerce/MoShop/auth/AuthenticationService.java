@@ -12,61 +12,65 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ecommerce.MoShop.user.UserAddress;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final UserAddressRepository userAddressRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserAddressRepository userAddressRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
-
         String username = request.getUsername();
         String email = request.getEmail();
 
-        if (repository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(username)) {
             throw new UserAlreadyExistsException("Username already exists");
         }
 
-        if (repository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             throw new UserAlreadyExistsException("Email already exists");
         }
 
-        var user = User.builder()
+        // Create User
+        User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
-                .username(request.getUsername())
+                .username(username)
                 .password(passwordEncoder.encode(request.getPassword()))
-                .streetAddress(request.getStreetAddress())
-                .city(request.getCity())
-                .state(request.getState())
-                .postalCode(request.getPostalCode())
-                .country(request.getCountry())
-                .signupDate(new Date())
+                .signupDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())) // Convert LocalDateTime to Date
                 .role(ERole.ROLE_USER)
                 .build();
-        repository.save(user);
 
-        var address = new UserAddress();
-        address.setStreetAddress(request.getStreetAddress());
-        address.setCity(request.getCity());
-        address.setState(request.getState());
-        address.setPostalCode(request.getPostalCode());
-        address.setCountry(request.getCountry());
-        address.setUser(user);
+        // Save User
+        User savedUser = userRepository.save(user);
 
-        userAddressRepository.save(address);
+        // Create and save UserAddress if address fields are provided
+        if (request.getStreetAddress() != null) {
+            UserAddress address = new UserAddress();
+            address.setStreetAddress(request.getStreetAddress());
+            address.setCity(request.getCity());
+            address.setState(request.getState());
+            address.setPostalCode(request.getPostalCode());
+            address.setCountry(request.getCountry());
+            address.setUser(savedUser); // Link the address to the user
 
-        var jwtToken = jwtService.generateToken(user);
+            userAddressRepository.save(address);
+        }
+
+        // Generate JWT Token
+        String jwtToken = jwtService.generateToken(savedUser);
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .username(user.getUsername())
-                .userId(user.getId())
+                .username(savedUser.getUsername())
+                .userId(savedUser.getId())
                 .build();
     }
 
@@ -77,9 +81,12 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = repository.findByUsername(request.getUsername())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String jwtToken = jwtService.generateToken(user);
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .username(user.getUsername())
