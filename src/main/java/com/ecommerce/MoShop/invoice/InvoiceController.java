@@ -3,6 +3,8 @@ package com.ecommerce.MoShop.invoice;
 import com.ecommerce.MoShop.user.User;
 import com.ecommerce.MoShop.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +32,18 @@ public class InvoiceController {
     }
 
     @GetMapping("/{userId}")
-    public List<InvoiceDTO> getInvoices(@PathVariable Long userId) {
+    public ResponseEntity<List<InvoiceDTO>> getInvoices(@PathVariable Long userId) {
         List<Invoice> invoices = invoiceService.getInvoicesByUserId(userId);
+
         if (invoices.isEmpty()) {
-            throw new IllegalArgumentException("Invoice not found for user: " + userId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return invoices.stream().map(this::convertToDTO).collect(Collectors.toList());
+
+        List<InvoiceDTO> invoiceDTOs = invoices.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(invoiceDTOs);
     }
 
     private InvoiceDTO convertToDTO(Invoice invoice) {
