@@ -16,10 +16,6 @@ public class UserService {
     @Autowired
     private UserAddressRepository userAddressRepository;
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
     public Optional<User> getUserByUserId(Long userId) {
         return userRepository.findById(String.valueOf(userId));
     }
@@ -27,7 +23,7 @@ public class UserService {
     public void addAddressToUser(Optional<User> user, UserAddress newUserAddress) {
         if (user.isPresent()) {
             newUserAddress.setUser(user.get());
-            userAddressRepository.save(newUserAddress);  // Save address to the DB
+            userAddressRepository.save(newUserAddress);
         } else {
             throw new RuntimeException("User not found");
         }
@@ -37,25 +33,7 @@ public class UserService {
         return userAddressRepository.findByUser(user);
     }
 
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            // Handle the case where the user is not authenticated
-            // Can return null or throw an exception
-            return null;
-        }
-
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof User) {
-            return (User) principal;
-        } else {
-            // Handle the case where the principal is not an instance of User class
-            // Can return null or throw an exception, or handle it as needed.
-            return null;
-        }
-    }
+    public Optional<User> getUserByEmail(String email) {return userRepository.findByEmail(email);}
 
     public Optional<User> getUserByUserId(String userId) {
         return userRepository.findById(userId);

@@ -1,12 +1,11 @@
 package com.ecommerce.MoShop.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/email")
 public class EmailController {
 
     private final EmailService emailService;
@@ -16,9 +15,9 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @GetMapping("/sendHello")
-    public String sendHello() {
-        emailService.sendHelloMessage();
-        return "Hello email sent successfully!";
+    @PostMapping("/send-email")
+    public String sendEmail(@RequestParam String email) {
+        emailService.sendUsernameAndPasswordResetLink(email);
+        return "Email sent successfully!";
     }
 }
