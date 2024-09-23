@@ -17,7 +17,7 @@ public class EmailController {
 
     @PostMapping("/send-email")
     public String sendEmail(@RequestParam String email) {
-        emailService.sendUsernameAndPasswordResetLink(email);
+        emailService.sendPasswordResetLink(email);
         return "Email sent successfully!";
     }
 }
