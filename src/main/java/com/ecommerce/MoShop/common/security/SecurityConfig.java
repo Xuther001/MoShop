@@ -35,6 +35,8 @@ public class SecurityConfig {
             "/api/products/**",
             "/api/users/**",
             "/email/sendHello",
+            "/reset-password",
+            "/request-password",
             "/api/reset-password"
     };
 

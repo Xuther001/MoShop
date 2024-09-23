@@ -20,35 +20,42 @@ public class PasswordResetController {
     private UserService userService;
 
     @GetMapping("/reset-password")
-    public ResponseEntity<String> showResetPasswordPage(@RequestParam String token) {
+    public ResponseEntity<?> showResetPasswordPage(@RequestParam String token) {
         boolean isValidToken = resetTokenService.verifyResetToken(token);
         if (!isValidToken) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\": \"Invalid or expired token.\"}");
         }
 
-        return ResponseEntity.ok("Token is valid. You can reset your password.");
+        return ResponseEntity.ok("{\"message\": \"Token is valid. You can reset your password.\"}");
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+    public ResponseEntity<?> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
         boolean isValidToken = resetTokenService.verifyResetToken(token);
 
         if (!isValidToken) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\": \"Invalid or expired token.\"}");
         }
 
         User user = resetTokenService.getUserByToken(token).orElse(null);
 
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\": \"User not found.\"}");
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
 
+        // Save the new password
         user.setPassword(encodedPassword);
         userService.save(user);
 
-        return ResponseEntity.ok("Password successfully reset.");
+        // Invalidate the used token
+        resetTokenService.deleteExistingTokensForUser(user);
+
+        return ResponseEntity.ok("{\"message\": \"Password successfully reset.\"}");
     }
 }
