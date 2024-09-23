@@ -1,13 +1,12 @@
 package com.ecommerce.MoShop.auth;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
 @Data
 @Builder
@@ -16,11 +15,11 @@ import jakarta.validation.constraints.Pattern;
 public class RegisterRequest {
 
     @NotBlank(message = "First name is required")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "First name must only contain letters")
+    @Pattern(regexp = "^[A-Za-z\\s]+$", message = "First name must only contain letters and spaces")
     private String firstname;
 
     @NotBlank(message = "Last name is required")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Last name must only contain letters")
+    @Pattern(regexp = "^[A-Za-z\\s]+$", message = "Last name must only contain letters and spaces")
     private String lastname;
 
     @NotBlank(message = "Email is required")
@@ -36,7 +35,7 @@ public class RegisterRequest {
     private String streetAddress;
 
     @NotBlank(message = "City is required")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "City must only contain letters")
+    @Pattern(regexp = "^[A-Za-z\\s]+$", message = "City must only contain letters and spaces")
     private String city;
 
     @NotBlank(message = "State is required")
@@ -48,6 +47,6 @@ public class RegisterRequest {
     private String postalCode;
 
     @NotBlank(message = "Country is required")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Country must only contain letters")
+    @Pattern(regexp = "^[A-Za-z\\s]+$", message = "Country must only contain letters and spaces")
     private String country;
 }
