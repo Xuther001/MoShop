@@ -49,11 +49,9 @@ public class PasswordResetController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
 
-        // Save the new password
         user.setPassword(encodedPassword);
         userService.save(user);
 
-        // Invalidate the used token
         resetTokenService.deleteExistingTokensForUser(user);
 
         return ResponseEntity.ok("{\"message\": \"Password successfully reset.\"}");

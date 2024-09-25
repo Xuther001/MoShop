@@ -20,6 +20,16 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowCredentials(true);
     }
 
+//    //For AWS
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://moshop1.0.s3-website-us-west-2.amazonaws.com")
+//                .allowedMethods("GET", "POST", "PUT", "DELETE")
+//                .allowedHeaders("*") //need this or cors issue
+//                .allowCredentials(true);
+//    }
+
 
 }
 
