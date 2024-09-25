@@ -37,7 +37,8 @@ public class SecurityConfig {
             "/email/sendHello",
             "/reset-password",
             "/request-password",
-            "/api/reset-password"
+            "/api/reset-password",
+            "/api/products/**"
     };
 
     @Bean

@@ -72,4 +72,14 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable Long categoryId) {
+        List<Product> products = productService.getProductsByCategoryId(categoryId);
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(products);
+        }
+        return ResponseEntity.ok(products);
+    }
+
 }

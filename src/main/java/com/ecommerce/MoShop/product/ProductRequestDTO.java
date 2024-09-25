@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class ProductRequestDTO {
 
     private String name;
+    private Long category;
     private String imageUrl;
     private String description;
     private Integer stock;
@@ -18,8 +19,9 @@ public class ProductRequestDTO {
     public ProductRequestDTO() {
     }
 
-    public ProductRequestDTO(String name, String imageUrl, String description, Integer stock, BigDecimal price) {
+    public ProductRequestDTO(String name, Long category, String imageUrl, String description, Integer stock, BigDecimal price) {
         this.name = name;
+        this.category = category;
         this.imageUrl = imageUrl;
         this.description = description;
         this.stock = stock;

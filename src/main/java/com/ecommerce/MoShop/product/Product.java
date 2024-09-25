@@ -1,9 +1,8 @@
 package com.ecommerce.MoShop.product;
 
+import com.ecommerce.MoShop.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -19,8 +18,11 @@ public class Product {
     private String imageUrl;
     private String description;
     private int stock;
-    private int category;
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     public void decrementStock(int quantityToDecrement) {
         if (quantityToDecrement > stock) {
