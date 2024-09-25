@@ -26,10 +26,12 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        String username = request.getUsername();
+
+        String normalizedUsername = request.getUsername().toLowerCase();
+
         String email = request.getEmail();
 
-        if (userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(normalizedUsername)) {
             throw new UserAlreadyExistsException("Username already exists");
         }
 
@@ -37,21 +39,18 @@ public class AuthenticationService {
             throw new UserAlreadyExistsException("Email already exists");
         }
 
-        // Create User
         User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
-                .username(username)
+                .username(normalizedUsername)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .signupDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())) // Convert LocalDateTime to Date
                 .role(ERole.ROLE_USER)
                 .build();
 
-        // Save User
         User savedUser = userRepository.save(user);
 
-        // Create and save UserAddress if address fields are provided
         if (request.getStreetAddress() != null) {
             UserAddress address = new UserAddress();
             address.setStreetAddress(request.getStreetAddress());
@@ -59,12 +58,11 @@ public class AuthenticationService {
             address.setState(request.getState());
             address.setPostalCode(request.getPostalCode());
             address.setCountry(request.getCountry());
-            address.setUser(savedUser); // Link the address to the user
+            address.setUser(savedUser);
 
             userAddressRepository.save(address);
         }
 
-        // Generate JWT Token
         String jwtToken = jwtService.generateToken(savedUser);
 
         return AuthenticationResponse.builder()
@@ -75,14 +73,17 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+        String normalizedUsername = request.getUsername().toLowerCase();
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
+                        normalizedUsername,
                         request.getPassword()
                 )
         );
 
-        User user = userRepository.findByUsername(request.getUsername())
+        User user = userRepository.findByUsername(normalizedUsername)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         String jwtToken = jwtService.generateToken(user);
