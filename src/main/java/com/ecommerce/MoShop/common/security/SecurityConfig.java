@@ -64,9 +64,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Frontend origin
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Frontend origin
 //        // For AWS
-        configuration.setAllowedOrigins(Arrays.asList("http://moshop1.0.s3-website-us-west-2.amazonaws.com"));
+//        configuration.setAllowedOrigins(Arrays.asList("http://moshop1.0.s3-website-us-west-2.amazonaws.com"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Allowed methods
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // Allowed headers
         configuration.setAllowCredentials(true); // Allow credentials (cookies, tokens)
