@@ -42,7 +42,9 @@ public class RequestPasswordService {
         ResetToken resetToken = resetTokenService.createResetTokenForUser(user);
 
         // Change the link to point to the frontend (React app)
-        String resetLink = "http://localhost:3000/reset-password?token=" + resetToken.getToken();
+//        String resetLink = "http://localhost:3000/reset-password?token=" + resetToken.getToken();
+        // AWS S3
+        String resetLink = "http://moshop1.0.s3-website-us-west-2.amazonaws.com/reset-password?token=" + resetToken.getToken();
 
         // Construct the email message
         String message = "Hello " + user.getUsername() + ",\n\n"
