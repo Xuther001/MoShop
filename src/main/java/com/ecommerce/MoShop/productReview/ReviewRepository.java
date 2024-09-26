@@ -2,14 +2,11 @@ package com.ecommerce.MoShop.productReview;
 
 import com.ecommerce.MoShop.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
-@Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
+    List<Review> findByProduct(Product product);
 
-    List<Review> findByProduct(Optional<Product> product);
-
+    List<Review> findByProductIdAndUsername(Long productId, String username);
 }

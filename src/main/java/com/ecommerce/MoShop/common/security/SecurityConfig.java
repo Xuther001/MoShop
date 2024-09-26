@@ -38,7 +38,8 @@ public class SecurityConfig {
             "/reset-password",
             "/request-password",
             "/api/reset-password",
-            "/api/products/**"
+            "/api/products/**",
+            "/api/purchases/**"
     };
 
     @Bean

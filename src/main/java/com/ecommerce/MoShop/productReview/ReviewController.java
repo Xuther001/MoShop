@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,34 +23,44 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public ResponseEntity<Review> addReview(@RequestBody ReviewProductDTO reviewRequestDTO) {
-        // Fetch product using productId from the DTO
+    public ResponseEntity<ReviewProductDTO> addReview(@RequestBody ReviewProductDTO reviewRequestDTO) {
         Product product = productService.getProductById(reviewRequestDTO.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // Create and populate Review entity
+        if (reviewRequestDTO.getRating() < 1 || reviewRequestDTO.getRating() > 5) {
+            return ResponseEntity.badRequest().body(null); // Handle this properly in your frontend
+        }
+
         Review review = new Review();
         review.setUsername(reviewRequestDTO.getUsername());
         review.setProduct(product);
         review.setComment(reviewRequestDTO.getComment());
         review.setRating(reviewRequestDTO.getRating());
 
-        // Save the review
         Review savedReview = reviewService.saveReview(review);
-        return ResponseEntity.ok(savedReview);
+        ReviewProductDTO responseDTO = ReviewProductDTO.fromReview(savedReview);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping("/{productId}/reviews")
     public List<ReviewProductDTO> getReviewsByProduct(@PathVariable Long productId) {
-        Optional<Product> product = productService.getProductById(productId);
-        if (product.isPresent()) {
-            return reviewService.getReviewsByProduct(Optional.of(product.get()))
-                    .stream()
-                    .map(ReviewProductDTO::fromReview)
-                    .collect(Collectors.toList());
-        } else {
-            // You could return an empty list or handle this case differently
-            return List.of();
-        }
+        Product product = productService.getProductById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        return reviewService.getReviewsByProduct(product)
+                .stream()
+                .map(ReviewProductDTO::fromReview)
+                .collect(Collectors.toList());
+    }
+
+    // New method to get user reviews for a specific product
+    @GetMapping("/{productId}/reviews/user")
+    public ResponseEntity<List<ReviewProductDTO>> getUserReviews(
+            @PathVariable Long productId, @RequestParam String username) {
+        List<Review> userReviews = reviewService.getUserReviews(productId, username);
+        List<ReviewProductDTO> responseDTOs = userReviews.stream()
+                .map(ReviewProductDTO::fromReview)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDTOs);
     }
 }
