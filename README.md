@@ -1,10 +1,12 @@
 # MoShop Setup & Usage Guide
 
-## Backend (MoShop) Setup
+Backend (MoShop) Setup
 
-1. **Open the MoShop project** in IntelliJ IDEA or your preferred IDE.
+1. Clone these Repositories: git clone https://github.com/Xuther001/MoShopFE.git git clone https://github.com/Xuther001/MoShop.git
 
-2. **Update your `application.properties`** (or `.yml`) with your PostgreSQL configuration:
+2. **Open the MoShop project** in IntelliJ IDEA or your preferred IDE.
+
+3. **Update your `application.properties`** (or `.yml`) with your PostgreSQL configuration:
 
    ```properties
    spring.datasource.url=jdbc:postgresql://localhost:5432/your-database-name
@@ -13,7 +15,8 @@
    spring.datasource.username=your-username
    spring.datasource.password=your-password
    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-Inject the database data:
+
+4. Inject the database data:
 
 Connect to your PostgreSQL database (your-database-name).
 
