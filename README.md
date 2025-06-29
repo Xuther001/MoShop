@@ -82,6 +82,7 @@ npm start
 Open your browser and go to:
 
 http://localhost:3000/
+
 Create an account by clicking Sign Up and filling out the registration form.
 
 Log in with your new username and password.
