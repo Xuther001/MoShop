@@ -19,7 +19,7 @@ Connect to your PostgreSQL database (your-database-name).
 
 Run the following SQL statements to insert categories:
 
-<pre><code>```
+<pre><code>
 INSERT INTO categories (name, description) VALUES
 ('Electronics', 'Devices, gadgets, and accessories for everyday use, including mobile phones, laptops, cameras, and more.'),
 ('Clothing', 'Apparel for men, women, and children, featuring everything from casual wear to formal attire and accessories.'),
@@ -41,7 +41,7 @@ INSERT INTO categories (name, description) VALUES
 ('Garden & Outdoor', 'Gardening tools, outdoor furniture, and landscaping accessories to create and maintain beautiful outdoor spaces.'),
 ('Health & Household', 'Cleaning supplies, household essentials, and health-related products for everyday use.'),
 ('Art & Craft Supplies', 'Materials for artists and hobbyists, including paints, canvases, and crafting tools.'),
-('Eyewear', 'A collection of stylish and functional glasses, including prescription eyewear, sunglasses, and protective lenses for fashion and vision care.');``` </code></pre>
+('Eyewear', 'A collection of stylish and functional glasses, including prescription eyewear, sunglasses, and protective lenses for fashion and vision care.');</code></pre>
 
 Then, insert the products:
 
