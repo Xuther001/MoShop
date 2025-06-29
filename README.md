@@ -75,21 +75,12 @@ Open the MoShopFE project in Visual Studio Code or your favorite IDE.
 
 Install dependencies:
 
-bash
-Copy
-Edit
 npm install
 Start the development server:
 
-bash
-Copy
-Edit
 npm start
 Open your browser and go to:
 
-arduino
-Copy
-Edit
 http://localhost:3000/
 Create an account by clicking Sign Up and filling out the registration form.
 
