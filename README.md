@@ -2,7 +2,7 @@
 
 Backend (MoShop) Setup
 
-1. Clone these Repositories: git clone https://github.com/Xuther001/MoShopFE.git git clone https://github.com/Xuther001/MoShop.git
+1. Clone this repository: git clone https://github.com/Xuther001/MoShop.git
 
 2. **Open the MoShop project** in IntelliJ IDEA or your preferred IDE.
 
@@ -74,18 +74,22 @@ INSERT INTO products (category_id, name, image_url, description, stock, price) V
 
 Frontend (MoShopFE) Setup
 
-Open the MoShopFE project in Visual Studio Code or your favorite IDE.
+1. Clone this repository: git clone https://github.com/Xuther001/MoShopFE.git 
 
-Install dependencies:
+2. **Open the MoShopFE project** in Visual Studio Code or your favorite IDE.
+
+3. Install dependencies:
 
 npm install
-Start the development server:
+
+4. Start the development server:
 
 npm start
-Open your browser and go to:
+
+5. Open your browser and go to:
 
 http://localhost:3000/
 
-Create an account by clicking Sign Up and filling out the registration form.
+6. Create an account by clicking Sign Up and filling out the registration form.
 
-Log in with your new username and password.
+7. Log in with your new username and password.
