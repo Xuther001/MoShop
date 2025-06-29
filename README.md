@@ -66,7 +66,7 @@ INSERT INTO products (category_id, name, image_url, description, stock, price) V
 (11, 'New Balance 990v5', 'https://i.imgur.com/jd3KSjf.jpeg', 'The New Balance 990v5 is an iconic running shoe that blends premium materials...', 25, 175.00),
 (11, 'ASICS Gel-Kayano 27', 'https://i.imgur.com/f1bwjIr.jpeg', 'The ASICS Gel-Kayano 27 is designed for stability and support...', 60, 160.00),
 (11, 'Reebok Classic Leather', 'https://i.imgur.com/7sRY8Wj.jpeg', 'The Reebok Classic Leather is a timeless sneaker known for its clean lines...', 70, 75.00);
-<code><pre>
+</code></pre>
 
 
 Frontend (MoShopFE) Setup
