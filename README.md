@@ -41,10 +41,12 @@ INSERT INTO categories (name, description) VALUES
 ('Garden & Outdoor', 'Gardening tools, outdoor furniture, and landscaping accessories to create and maintain beautiful outdoor spaces.'),
 ('Health & Household', 'Cleaning supplies, household essentials, and health-related products for everyday use.'),
 ('Art & Craft Supplies', 'Materials for artists and hobbyists, including paints, canvases, and crafting tools.'),
-('Eyewear', 'A collection of stylish and functional glasses, including prescription eyewear, sunglasses, and protective lenses for fashion and vision care.');</code></pre>
+('Eyewear', 'A collection of stylish and functional glasses, including prescription eyewear, sunglasses, and protective lenses for fashion and vision care.');
+</code></pre>
 
 Then, insert the products:
 
+<pre><code>
 INSERT INTO products (category_id, name, image_url, description, stock, price) VALUES
 (21, 'Ray-Ban Aviator Classic', 'https://i.imgur.com/PW4PQaY.jpeg', 'Ray-Ban''s Aviator Classic sunglasses are a timeless model originally designed for U.S. aviators in 1937...', 50, 150.00),
 (21, 'Oakley Holbrook', 'https://i.imgur.com/ijT2KzR.jpeg', 'The Oakley Holbrook sunglasses offer a blend of vintage style and modern technology...', 40, 120.00),
@@ -64,6 +66,7 @@ INSERT INTO products (category_id, name, image_url, description, stock, price) V
 (11, 'New Balance 990v5', 'https://i.imgur.com/jd3KSjf.jpeg', 'The New Balance 990v5 is an iconic running shoe that blends premium materials...', 25, 175.00),
 (11, 'ASICS Gel-Kayano 27', 'https://i.imgur.com/f1bwjIr.jpeg', 'The ASICS Gel-Kayano 27 is designed for stability and support...', 60, 160.00),
 (11, 'Reebok Classic Leather', 'https://i.imgur.com/7sRY8Wj.jpeg', 'The Reebok Classic Leather is a timeless sneaker known for its clean lines...', 70, 75.00);
+<pre><code>
 
 
 Frontend (MoShopFE) Setup
